@@ -1,21 +1,15 @@
 declare var google: any;
-
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from "./card/card.component";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [CommonModule, CardComponent]
+  selector: 'app-card',
+  standalone: true,
+  templateUrl: './card.component.html',
+  styleUrl: './card.component.css',
+  imports: [CommonModule]
 })
-export class AppComponent implements OnInit {
-  name = sessionStorage.getItem("name");
-  email = sessionStorage.getItem("email");
-  picture = sessionStorage.getItem("picture");
-
+export class CardComponent {
   ngOnInit() {
     function decodeJWT(response: any) {
       const details = JSON.parse(atob(response.split('.')[1]))
@@ -31,7 +25,7 @@ export class AppComponent implements OnInit {
       callback: (response: any) => {
         decodeJWT(response.credential)
       },
-      context: "use",  //this can take 'signup', 'signin' and 'use'
+      context: "signin",  //this can take 'signup', 'signin' and 'use'
       auto_select: false,
       cancel_on_tap_outside: true,
     });
@@ -41,7 +35,7 @@ export class AppComponent implements OnInit {
     // }
 
     // @ts-ignore
-    // google.accounts.id.prompt((notification: PromptMomentNotification) => { });
+    google.accounts.id.prompt((notification: PromptMomentNotification) => { });
 
     google.accounts.id.renderButton(
       document.getElementById("google-btn"),
